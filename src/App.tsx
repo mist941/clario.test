@@ -1,11 +1,7 @@
-import AuthTemplate from './components/templates/AuthTemplate/AuthTemplate.tsx';
+import SignUpPage from './components/pages/SignUpPage/SignUpPage.tsx';
 
 const App = () => {
-  return (
-    <AuthTemplate>
-      Test
-    </AuthTemplate>
-  );
+  return <SignUpPage/>;
 };
 
 export default App;

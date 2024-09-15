@@ -6,9 +6,9 @@ type AuthTemplateProps = {
 }
 const AuthTemplate = ({ children }: AuthTemplateProps) => {
   return (
-    <div className={styles.authTemplate}>
+    <main className={styles.authTemplate}>
       {children}
-    </div>
+    </main>
   );
 };
 
