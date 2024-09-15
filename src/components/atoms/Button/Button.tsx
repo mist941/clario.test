@@ -1,5 +1,6 @@
 import { ButtonHTMLAttributes, DetailedHTMLProps, ReactNode } from 'react';
 import styles from './Button.module.scss';
+import classNames from 'classnames';
 
 type ButtonProps = {
   children?: ReactNode,
@@ -9,7 +10,7 @@ const Button = ({ children, ...rest }: ButtonProps) => {
   return (
     <button
       {...rest}
-      className={styles.button}
+      className={classNames(styles.button, rest.className)}
     >
       {children}
     </button>

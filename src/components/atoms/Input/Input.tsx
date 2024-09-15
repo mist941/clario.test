@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 type InputStyleType = '' | 'error' | 'success';
 
-type InputProps = {
+export type InputProps = {
   style?: InputStyleType;
 } & DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
 
@@ -15,6 +15,7 @@ const Input = ({ style = '', ...rest }: InputProps) => {
       className={classNames(
         styles.input,
         styles[style],
+        rest.className
       )}
     />
   );

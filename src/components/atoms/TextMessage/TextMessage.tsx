@@ -6,11 +6,12 @@ type TextMessageStyleType = '' | 'error' | 'success';
 type TextMessageProps = {
   style?: TextMessageStyleType;
   children: string;
+  className?: string;
 }
 
-const TextMessage = ({ style = '', children }: TextMessageProps) => {
+const TextMessage = ({ style = '', className, children }: TextMessageProps) => {
   return (
-    <p className={classNames(styles.message, styles[style])}>
+    <p className={classNames(styles.message, styles[style], className)}>
       {children}
     </p>
   );
