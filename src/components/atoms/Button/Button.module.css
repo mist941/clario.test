@@ -1,3 +1,21 @@
-
+.button {
+  border-radius: 30px;
+  color: #fff;
+  border: unset;
+  height: 48px;
+  padding: 0 32px;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 14px;
+  cursor: pointer;
+  transition: 0.5s;
+  background: linear-gradient(110deg, #70C3FF 12.27%, #4B65FF 93.92%) var(--x, 0)/200%;
+}
+.button:hover {
+  --x: 50%;
+}
+.button:active {
+  --x: 100%;
+}
 
 /*# sourceMappingURL=Button.module.css.map */
