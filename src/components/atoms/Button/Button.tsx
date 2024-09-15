@@ -1,7 +1,7 @@
 import { ButtonHTMLAttributes, DetailedHTMLProps, ReactNode } from 'react';
 import styles from './Button.module.scss';
 
-export type ButtonProps = {
+type ButtonProps = {
   children?: ReactNode,
 } & DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>;
 

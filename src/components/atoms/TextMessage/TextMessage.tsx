@@ -1,16 +1,16 @@
 import styles from './TextMessage.module.scss';
 import classNames from 'classnames';
 
-type TextMessageType = '' | 'error' | 'success';
+type TextMessageStyleType = '' | 'error' | 'success';
 
-export type TextMessageProps = {
-  type?: TextMessageType;
+type TextMessageProps = {
+  style?: TextMessageStyleType;
   children: string;
 }
 
-const TextMessage = ({ type = '', children }: TextMessageProps) => {
+const TextMessage = ({ style = '', children }: TextMessageProps) => {
   return (
-    <p className={classNames(styles.message, styles[type])}>
+    <p className={classNames(styles.message, styles[style])}>
       {children}
     </p>
   );

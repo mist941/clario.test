@@ -1,0 +1,17 @@
+.authTemplate {
+  background: linear-gradient(168deg, #F4F9FF 0%, #E0EDFB 100%);
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background: url("src/assets/images/auth-template-stars.png") no-repeat center center;
+    background-size: contain;
+  }
+}
