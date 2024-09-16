@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import TextMessage, { TextMessageStyleType } from '../../atoms/TextMessage/TextMessage.tsx';
 import { getInputStyle } from '../../../utils/validation.ts';
 
-export type PasswordFieldErrors = {
+type PasswordFieldErrors = {
   enoughCharacters: boolean;
   containsDigit: boolean;
   containsCasedLetters: boolean;
@@ -21,6 +21,7 @@ type PasswordFieldProps = {
 
 const PasswordField = ({ className, errors, touched, ...rest }: PasswordFieldProps) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [focused, setFocused] = useState<boolean>(false);
 
   const togglePasswordVisible = () => {
     setShowPassword(prevState => !prevState);
@@ -34,10 +35,24 @@ const PasswordField = ({ className, errors, touched, ...rest }: PasswordFieldPro
 
   const containsErrors = errors ? Object.values(errors || {}).some(i => i) : false;
 
+  const iconClassNames = classNames(styles.icon, { [styles[getInputStyle(touched, containsErrors)]]: !focused });
+
   return (
     <div className={classNames(styles.fieldWrap, className)}>
       <Input
         {...rest}
+        onFocus={e => {
+          if (rest.onFocus) {
+            rest.onFocus(e);
+          }
+          setFocused(true);
+        }}
+        onBlur={e => {
+          if (rest.onBlur) {
+            rest.onBlur(e);
+          }
+          setFocused(false);
+        }}
         type={showPassword ? 'text' : 'password'}
         className={styles.input}
         style={getInputStyle(touched, containsErrors)}
@@ -45,12 +60,12 @@ const PasswordField = ({ className, errors, touched, ...rest }: PasswordFieldPro
       {showPassword ? (
         <HidePasswordIcon
           onClick={togglePasswordVisible}
-          className={classNames(styles.icon, styles[getInputStyle(touched, containsErrors)])}
+          className={iconClassNames}
         />
       ) : (
         <ShowPasswordIcon
           onClick={togglePasswordVisible}
-          className={classNames(styles.icon, styles[getInputStyle(touched, containsErrors)])}
+          className={iconClassNames}
         />
       )}
       <div className={styles.passwordErrors}>
