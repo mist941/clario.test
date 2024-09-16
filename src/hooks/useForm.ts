@@ -9,6 +9,7 @@ type ChangeFieldTouched = (field: string, value: boolean) => void;
 type FormHookInput = {
   validate: (values: FormValues) => FormErrors;
   submit: (values: FormValues) => void;
+  initialValues: FormValues;
 }
 
 type FormHookOutput = {
@@ -18,10 +19,11 @@ type FormHookOutput = {
   changeValue: ChangeFieldValue;
   changeTouched: ChangeFieldTouched;
   onSubmit: (event: FormEvent<HTMLFormElement>) => void;
+  resetForm: () => void;
 }
 
-const useForm = ({ validate, submit }: FormHookInput): FormHookOutput => {
-  const [values, setValues] = useState<FormValues>({});
+const useForm = ({ validate, submit, initialValues = {} }: FormHookInput): FormHookOutput => {
+  const [values, setValues] = useState<FormValues>(initialValues);
   const [errors, setErrors] = useState<FormErrors>({});
   const [touched, setTouched] = useState<FormTouched>({});
 
@@ -39,8 +41,20 @@ const useForm = ({ validate, submit }: FormHookInput): FormHookOutput => {
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const touched: FormTouched = {};
+    Object.keys(values).forEach(key => {
+      touched[key] = true;
+    });
+    setTouched(touched);
+    setErrors(validate(values));
     if (Object.keys(errors).length > 0) return;
     submit(values);
+  };
+
+  const resetForm = () => {
+    setErrors({});
+    setTouched({});
+    setValues(initialValues);
   };
 
   return {
@@ -50,6 +64,7 @@ const useForm = ({ validate, submit }: FormHookInput): FormHookOutput => {
     changeValue,
     changeTouched,
     onSubmit,
+    resetForm,
   };
 };
 

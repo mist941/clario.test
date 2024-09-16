@@ -11,7 +11,11 @@ import {
 } from '../../../utils/validation.ts';
 
 const SignUpForm = () => {
-  const { values, touched, errors, onSubmit, changeValue, changeTouched } = useForm({
+  const { values, touched, errors, onSubmit, changeValue, changeTouched, resetForm } = useForm({
+    initialValues: {
+      email: '',
+      password: '',
+    },
     validate: (values) => {
       const errors: Record<string, boolean | string> = {};
       if (!isValidEmail(values.email)) {
@@ -32,9 +36,18 @@ const SignUpForm = () => {
       return errors;
     },
     submit: (values) => {
-      console.log(values);
+      submitForm(values);
     },
   });
+
+  const submitForm = (values: Record<string, string>) => {
+    alert(`
+      You logged in with:
+      ${values.email} 
+      ${values.password}
+    `);
+    resetForm();
+  };
 
   const emailValidationMessage = touched.email ? errors.email as string : '';
   const passwordValidationMessages = touched.password ? {
@@ -49,6 +62,7 @@ const SignUpForm = () => {
         placeholder='Enter an email'
         className={styles.field}
         value={values.email}
+        touched={touched.email}
         onChange={e => changeValue('email', e.target.value)}
         onBlur={() => {
           changeTouched('email', true);
@@ -56,13 +70,13 @@ const SignUpForm = () => {
         onFocus={() => {
           changeTouched('email', false);
         }}
-        style={emailValidationMessage ? 'error' : ''}
         error={emailValidationMessage}
       />
       <PasswordField
         placeholder='Enter a password'
         className={styles.field}
         value={values.password}
+        touched={touched.password}
         onChange={e => {
           changeValue('password', e.target.value);
           changeTouched('password', true);

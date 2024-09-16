@@ -5,6 +5,7 @@ import HidePasswordIcon from '../../icons/HidePasswordIcon.tsx';
 import ShowPasswordIcon from '../../icons/ShowPasswordIcon.tsx';
 import classNames from 'classnames';
 import TextMessage, { TextMessageStyleType } from '../../atoms/TextMessage/TextMessage.tsx';
+import { getInputStyle } from '../../../utils/validation.ts';
 
 export type PasswordFieldErrors = {
   enoughCharacters: boolean;
@@ -15,9 +16,10 @@ export type PasswordFieldErrors = {
 type PasswordFieldProps = {
   errors?: PasswordFieldErrors;
   className?: string;
+  touched: boolean;
 } & InputProps;
 
-const PasswordField = ({ className, errors, ...rest }: PasswordFieldProps) => {
+const PasswordField = ({ className, errors, touched, ...rest }: PasswordFieldProps) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const togglePasswordVisible = () => {
@@ -30,7 +32,7 @@ const PasswordField = ({ className, errors, ...rest }: PasswordFieldProps) => {
     return 'error';
   };
 
-  const containsErrors = errors && Object.values(errors || {}).some(i => i);
+  const containsErrors = errors ? Object.values(errors || {}).some(i => i) : false;
 
   return (
     <div className={classNames(styles.fieldWrap, className)}>
@@ -38,17 +40,17 @@ const PasswordField = ({ className, errors, ...rest }: PasswordFieldProps) => {
         {...rest}
         type={showPassword ? 'text' : 'password'}
         className={styles.input}
-        style={containsErrors ? 'error' : ''}
+        style={getInputStyle(touched, containsErrors)}
       />
       {showPassword ? (
         <HidePasswordIcon
           onClick={togglePasswordVisible}
-          className={styles.icon}
+          className={classNames(styles.icon, styles[getInputStyle(touched, containsErrors)])}
         />
       ) : (
         <ShowPasswordIcon
           onClick={togglePasswordVisible}
-          className={styles.icon}
+          className={classNames(styles.icon, styles[getInputStyle(touched, containsErrors)])}
         />
       )}
       <div className={styles.passwordErrors}>

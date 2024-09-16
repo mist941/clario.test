@@ -1,3 +1,5 @@
+import { InputStyleType } from '../components/atoms/Input/Input.tsx';
+
 export const isValidEmail = (email: string): boolean => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
@@ -18,4 +20,10 @@ export const isContainsCasedLetters = (text: string): boolean => {
   const hasUpperCase = /[A-Z]/.test(text);
   const hasLowerCase = /[a-z]/.test(text);
   return hasUpperCase && hasLowerCase;
+};
+
+export const getInputStyle = (touched: boolean, containsErrors: boolean): InputStyleType => {
+  if (!touched) return '';
+  if (containsErrors) return 'error';
+  return 'success';
 };
