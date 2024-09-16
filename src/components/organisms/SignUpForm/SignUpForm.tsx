@@ -77,9 +77,11 @@ const SignUpForm = () => {
         className={styles.field}
         value={values.password}
         touched={touched.password}
+        onFocus={() => {
+          changeTouched('password', true);
+        }}
         onChange={e => {
           changeValue('password', e.target.value);
-          changeTouched('password', true);
         }}
         errors={passwordValidationMessages}
       />
