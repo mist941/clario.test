@@ -1,7 +1,7 @@
 import styles from './TextMessage.module.scss';
 import classNames from 'classnames';
 
-type TextMessageStyleType = '' | 'error' | 'success';
+export type TextMessageStyleType = '' | 'error' | 'success';
 
 type TextMessageProps = {
   style?: TextMessageStyleType;

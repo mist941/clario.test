@@ -1,5 +1,5 @@
 import AuthTemplate from '../../templates/AuthTemplate/AuthTemplate.tsx';
-import SignUpForm from '../../SignUpForm/SignUpForm.tsx';
+import SignUpForm from '../../organisms/SignUpForm/SignUpForm.tsx';
 import styles from './SignUpPage.module.scss';
 
 const SignUpPage = () => {

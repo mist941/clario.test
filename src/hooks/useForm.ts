@@ -2,7 +2,7 @@ import { FormEvent, useEffect, useState } from 'react';
 
 type FormValues = Record<string, string>;
 type FormTouched = Record<string, boolean>;
-type FormErrors = Record<string, Record<string, boolean> | string>;
+type FormErrors = Record<string, boolean | string>;
 type ChangeFieldValue = (field: string, value: string) => void;
 type ChangeFieldTouched = (field: string, value: boolean) => void;
 

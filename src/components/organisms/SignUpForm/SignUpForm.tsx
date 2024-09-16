@@ -1,32 +1,33 @@
-import Button from '../atoms/Button/Button.tsx';
-import useForm from '../../hooks/useForm.ts';
-import InputField from '../molecules/InputField/InputField.tsx';
+import Button from '../../atoms/Button/Button.tsx';
+import useForm from '../../../hooks/useForm.ts';
+import InputField from '../../molecules/InputField/InputField.tsx';
 import styles from './SignUpForm.module.scss';
-import PasswordField from '../molecules/PasswordField/PasswordField.tsx';
-import { isContainsCasedLetters, isContainsDigit, isEnoughCharacters, isValidEmail } from '../../utils/validation.ts';
+import PasswordField from '../../molecules/PasswordField/PasswordField.tsx';
+import {
+  isContainsCasedLetters,
+  isContainsDigit,
+  isEnoughCharacters,
+  isValidEmail,
+} from '../../../utils/validation.ts';
 
 const SignUpForm = () => {
   const { values, touched, errors, onSubmit, changeValue, changeTouched } = useForm({
     validate: (values) => {
-      const errors = {
-        email: '',
-        password: {
-          enoughCharacters: true,
-          containsDigit: true,
-          containsCasedLetters: true,
-        },
-      };
+      const errors: Record<string, boolean | string> = {};
       if (!isValidEmail(values.email)) {
         errors.email = 'Email is not valid';
       }
-      if (!isEnoughCharacters(values.password)) {
-        errors.password.enoughCharacters = false;
+      if (!values.email) {
+        errors.email = 'Email is empty';
       }
-      if (!isContainsDigit(values.password)) {
-        errors.password.containsDigit = false;
+      if (!isEnoughCharacters(values.password)) {
+        errors.passwordEnoughCharacters = true;
       }
       if (!isContainsCasedLetters(values.password)) {
-        errors.password.containsCasedLetters = false;
+        errors.passwordContainsCasedLetters = true;
+      }
+      if (!isContainsDigit(values.password)) {
+        errors.passwordContainsDigit = true;
       }
       return errors;
     },
@@ -36,10 +37,16 @@ const SignUpForm = () => {
   });
 
   const emailValidationMessage = touched.email ? errors.email as string : '';
+  const passwordValidationMessages = touched.password ? {
+    enoughCharacters: errors.passwordEnoughCharacters as boolean,
+    containsDigit: errors.passwordContainsDigit as boolean,
+    containsCasedLetters: errors.passwordContainsCasedLetters as boolean,
+  } : undefined;
 
   return (
     <form onSubmit={onSubmit} className={styles.signUpForm}>
       <InputField
+        placeholder='Enter an email'
         className={styles.field}
         value={values.email}
         onChange={e => changeValue('email', e.target.value)}
@@ -53,15 +60,14 @@ const SignUpForm = () => {
         error={emailValidationMessage}
       />
       <PasswordField
+        placeholder='Enter a password'
         className={styles.field}
         value={values.password}
-        onChange={e => changeValue('password', e.target.value)}
-        onBlur={() => {
+        onChange={e => {
+          changeValue('password', e.target.value);
           changeTouched('password', true);
         }}
-        onFocus={() => {
-          changeTouched('password', false);
-        }}
+        errors={passwordValidationMessages}
       />
       <Button className={styles.submitButton}>
         Sign up
